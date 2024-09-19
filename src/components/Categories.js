@@ -1,32 +1,42 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React from "react";
-import { categories, colors } from "../constants/constant";
-import { TouchableOpacity } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
+import React, { useState } from "react";
+import { categories, colors, mealsByCategory } from "../constants/constant";
+
 const Categories = () => {
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+
   return (
     <View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {categories.map((category, index) => {
           return (
             <View
-              style={{
-                backgroundColor:
-                  index === 0 ? colors.COLOR_PRIMARY : colors.COLOR_LIGHT,
-                marginRight: 36,
-                borderRadius: 8,
-                paddingHorizontal: 16,
-                paddingVertical: 10,
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.1,
-                shadowRadius: 7,
-                marginVertical: 16,
-              }}
+              key={index} // Thêm key để tránh cảnh báo khi render danh sách
+              style={[
+                styles.categoryContainer,
+                {
+                  backgroundColor:
+                    index === selectedCategoryIndex
+                      ? colors.COLOR_PRIMARY
+                      : colors.COLOR_LIGHT,
+                },
+              ]}
             >
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setSelectedCategoryIndex(index)} // Cập nhật trạng thái khi nhấn vào
+              >
                 <Text
                   style={{
-                    color: index === 0 && colors.COLOR_LIGHT,
+                    color:
+                      index === selectedCategoryIndex
+                        ? colors.COLOR_LIGHT
+                        : colors.COLOR_DARK,
                     fontSize: 18,
                   }}
                 >
@@ -43,7 +53,19 @@ const Categories = () => {
 
 export default Categories;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  categoryContainer: {
+    marginRight: 36,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 7,
+    marginVertical: 16,
+  },
+});
 
 // import React, { useEffect, useState } from "react";
 // import {

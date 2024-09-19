@@ -5,14 +5,34 @@ import {
   Image,
   Pressable,
   ScrollView,
+  Alert,
+  ToastAndroid,
+  Platform,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const DetailScreen = ({ navigation, route }) => {
   const { item } = route.params;
   console.log(item);
+
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  // Hàm xử lý nhấn vào icon heart
+  const handleFavoritePress = () => {
+    setIsFavorite(!isFavorite);
+
+    // Hiển thị thông báo tùy theo platform
+    const message = isFavorite
+      ? "Đã xóa khỏi yêu thích"
+      : "Đã thêm vào yêu thích";
+    if (Platform.OS === "android") {
+      ToastAndroid.show(message, ToastAndroid.SHORT);
+    } else {
+      Alert.alert(message);
+    }
+  };
 
   return (
     <View style={{ backgroundColor: item.colors, flex: 1 }}>
@@ -24,13 +44,21 @@ const DetailScreen = ({ navigation, route }) => {
           <FontAwesome name="arrow-circle-left" size={24} color="white" />
         </Pressable>
 
-        <FontAwesome name="heart-o" size={24} color="white" />
+        {/* <FontAwesome name="heart-o" size={24} color="white" /> */}
+
+        <Pressable onPress={handleFavoritePress}>
+          <FontAwesome
+            name={isFavorite ? "heart" : "heart-o"} // Thay đổi icon dựa trên trạng thái yêu thích
+            size={24}
+            color={isFavorite ? "black" : "white"} // Thay đổi màu dựa trên trạng thái yêu thích
+          />
+        </Pressable>
       </SafeAreaView>
       <View
         style={{
           backgroundColor: "#fff",
           flex: 1,
-          marginTop: 240,
+          marginTop: 200,
           borderTopRightRadius: 50,
           borderTopLeftRadius: 50,
           alignItems: "center",

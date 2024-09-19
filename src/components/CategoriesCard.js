@@ -10,6 +10,7 @@ import React from "react";
 import { colors, recipeList } from "../constants/constant";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
+
 const CategoriesCard = () => {
   const navigation = useNavigation();
   return (

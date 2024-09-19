@@ -1,18 +1,44 @@
-import { StyleSheet, Text, View } from "react-native";
+// screens/FavoriteScreen.js
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
-const FavoriteScreen = ({ navigation }) => {
+const FavoriteScreen = ({ favorites, removeFavorite }) => {
   return (
-    <View>
-      <Text>FavoriteScreen</Text>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Favorites")}
-      ></TouchableOpacity>
+    <View style={styles.container}>
+      <FlatList
+        data={favorites}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text>{item.name}</Text>
+            <TouchableOpacity onPress={() => removeFavorite(item.id)}>
+              <Text>Remove</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      />
     </View>
   );
 };
 
-export default FavoriteScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  item: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+});
 
-const styles = StyleSheet.create({});
+export default FavoriteScreen;
